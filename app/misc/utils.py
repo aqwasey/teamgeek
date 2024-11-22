@@ -20,3 +20,13 @@ def get_params_data():
     else:
         data = request.form.to_dict()
         return data if data else None
+
+
+def hash_pwd(param: str) -> str:
+    """
+    Function to hash raw or plain password value
+
+    Attributes:
+        param: plain password value
+    """
+    return param or None

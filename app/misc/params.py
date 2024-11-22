@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from typing import Optional, Union
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, EmailStr, Field
 
 
 class BaseItem(BaseModel):
@@ -65,3 +65,25 @@ class UpdateItem(BaseModel):
     author: Union[str, None] = None
     isbn: Union[str, None] = None
     publish_date: Union[date, None] = None
+
+
+class UserBase(BaseModel):
+    """
+    User information base structure
+    """
+    email: EmailStr
+    password: str
+
+
+class AuthUser(UserBase):
+    """
+    Authenticating User details
+    """
+    pass
+
+
+class UserInfo(UserBase):
+    """
+    User information
+    """
+    id: Optional[str] = None
