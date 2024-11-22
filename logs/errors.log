@@ -1,0 +1,41 @@
+2024-11-22 11:02:25,847 - app.settings - ERROR - Exception on /api/books/9999 [GET]
+Traceback (most recent call last):
+  File "/home/kwesi/Desktop/web-dev-assessment/teamgeek/env/lib/python3.12/site-packages/flask/app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kwesi/Desktop/web-dev-assessment/teamgeek/env/lib/python3.12/site-packages/flask/app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kwesi/Desktop/web-dev-assessment/teamgeek/env/lib/python3.12/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kwesi/Desktop/web-dev-assessment/teamgeek/env/lib/python3.12/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kwesi/Desktop/web-dev-assessment/teamgeek/app/routes/book_routes.py", line 26, in get_book
+    result = book_service.get_book(book_id=id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kwesi/Desktop/web-dev-assessment/teamgeek/app/services/books_service.py", line 35, in get_book
+    query_id = uuid.UUID(book_id)
+               ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/uuid.py", line 178, in __init__
+    raise ValueError('badly formed hexadecimal UUID string')
+ValueError: badly formed hexadecimal UUID string
+2024-11-22 11:02:25,891 - app.settings - ERROR - Exception on /api/books/ [POST]
+Traceback (most recent call last):
+  File "/home/kwesi/Desktop/web-dev-assessment/teamgeek/env/lib/python3.12/site-packages/flask/app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kwesi/Desktop/web-dev-assessment/teamgeek/env/lib/python3.12/site-packages/flask/app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kwesi/Desktop/web-dev-assessment/teamgeek/env/lib/python3.12/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kwesi/Desktop/web-dev-assessment/teamgeek/env/lib/python3.12/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kwesi/Desktop/web-dev-assessment/teamgeek/app/routes/book_routes.py", line 65, in new_book
+    publish_date=data["publish_date"])
+                 ~~~~^^^^^^^^^^^^^^^^
+KeyError: 'publish_date'
