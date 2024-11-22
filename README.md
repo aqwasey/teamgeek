@@ -1,9 +1,9 @@
-## TeamGeek Books API
+# TeamGeek Books API
 
 Teamgeek Books API project is based on python flask web framework. Other dependencies include SQLAlchemy library and SQLite as the database of choice. This is a dockerize project that can simply be run on Docker, Kubernetes or any containerized environment.
 
 
-# Additional Libraries
+## Additional Libraries
 1. Flask (https://flask.palletsprojects.com/)
 - Flask is a lightweight Python web framework that allows you to build web applications quickly and efficiently. It's known for its simplicity, flexibility, and ease of use.
 
@@ -26,4 +26,4 @@ Teamgeek Books API project is based on python flask web framework. Other depende
 - Python-dotenv is a Python library that simplifies the process of managing environment variables in your applications. It allows you to store sensitive information, such as API keys, database credentials, and other configuration settings, in a .env file.
 
 
-# Setup the API Service
+## Setup the API Service
