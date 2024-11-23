@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from typing import List, Optional
+from typing import Optional
 from app.models.user import User
 from app.settings import db, logger
 
@@ -25,7 +25,7 @@ class UserRepository:
             item (User): An instance of the User model with user details.
 
         Returns:
-            Book: The newly created User object with its assigned ID.
+            User: The newly created User object with its assigned ID.
 
         Raises:
             Exception: If an unexpected error occurs during database
@@ -33,14 +33,13 @@ class UserRepository:
         """
 
         try:
-            new_book = User(**item.dict())
-            self.db.session.add(new_book)
+            new_user = User(**item.dict())
+            self.db.session.add(new_user)
             self.db.session.commit()
-            return new_book
+            return new_user
         except Exception as e:
-            logger.error(
-                "[CREATE USER] - Error creating user due to %s",
-                str(e), exc_info=True)
+            logger.error("[CREATE USER] - Error creating user due to %s",
+                         str(e), exc_info=True)
             return None
 
     def get_user(self, username: str, password: str) -> Optional[User | None]:
@@ -48,20 +47,24 @@ class UserRepository:
         Retrieves a single user record based on its Email and password.
 
         Args:
-            email (str): The email associated with a user account.
+            username (str): The email associated with a user account.
             password (str): The unique password associated with a user account
 
         Returns:
-            Optional[Book or None]: The Book object if found, otherwise None.
+            Optional[User or None]: The User object if found, otherwise None.
         """
 
         data = User.query.filter_by(email=username).one()
-        instant_hash = ""
-        return data or None
+        instant_hash = password
+
+        # compare if both values are the same
+        if instant_hash == data.password:
+            return data  # found the record
+        return None
 
     def update_user(self, item: dict) -> Optional[User | None]:
         """
-        Updates an existing book record with new information.
+        Updates an existing user record with new information.
 
         Args:
             item (dict): A dictionary containing new values for
@@ -77,22 +80,18 @@ class UserRepository:
         """
 
         try:
-            query_id = uuid.UUID(item.id)
-            book = User.query.get(query_id)
-            if book is None:
+            user = User.query.get(item.id)
+            if user is None:
                 return None
 
-            if book:
-                book.title = item.title
-                book.author = item.author
-                book.isbn = item.isbn
-                book.publish_date = item.publish_date
-                book.updated_at = datetime.today()
+            if user:
+                user.fullname = item.fullname
+                user.email = item.email
+                user.password = item.password
+                user.updated_at = datetime.today()
                 self.db.session.commit()
-            return book
-        except ValueError as e:
-            logger.error("[UPDATE USER] - Invalid UUID format for 'id': %s", e)
-            return None
+            return user
+
         except Exception as ex:
             logger.error("[UPDATE USER] - Error updating user due to %s",
                          str(ex), exc_info=True)

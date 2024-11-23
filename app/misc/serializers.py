@@ -34,3 +34,7 @@ def serialize_book(book_instance):
             ).model_dump(mode='json') for book in book_instance
         ]
         return serialized_books
+
+
+def serialize_user(user_instance):
+    pass

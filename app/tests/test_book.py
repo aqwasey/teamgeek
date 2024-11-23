@@ -63,9 +63,8 @@ class TestBookAPI:
             "publish_date": "2001-11-20", "author": "Desmond Tutu"
         }
         test_book_id = self.temp_book_id
-        response = r.patch(url=f"{BASE_URL}/{test_book_id}", json=data, timeout=100)
-        print(response.content)
-        print(response.status_code)
+        response = r.patch(
+            url=f"{BASE_URL}/{test_book_id}", json=data, timeout=50)
         assert response.status_code == 200
 
     def test_create_book_with_invalid_data(self):
