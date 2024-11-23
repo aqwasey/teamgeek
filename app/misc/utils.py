@@ -1,8 +1,5 @@
-import uuid
 from flask import request
-
-from app.misc.params import Item
-
+import hashlib
 
 def get_params_data():
     """
@@ -22,11 +19,23 @@ def get_params_data():
         return data if data else None
 
 
-def hash_pwd(param: str) -> str:
+def generate_password_hash(param: str) -> str:
     """
     Function to hash raw or plain password value
 
     Attributes:
         param: plain password value
+
+    Returns:
+        Hashed password value or None
     """
-    return param or None
+    result = hashlib.sha512(param.encode()).hexdigest()
+    return result or None
+
+
+def check_password(hashed_password: str, plain_password: str) -> bool:
+    """
+    Compare the hashed password and a plain password
+    """
+    current_hashed_password = generate_password_hash(plain_password)
+    return hashed_password == current_hashed_password

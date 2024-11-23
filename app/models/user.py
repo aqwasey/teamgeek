@@ -1,6 +1,7 @@
 import uuid
 from datetime import datetime
 from app.settings import db
+from app.misc.utils import generate_password_hash, check_password
 
 
 class User(db.Model):
@@ -24,3 +25,15 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.today)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.today,
         onupdate=datetime.today)
+
+    def set_password(self, password):
+        """
+        Salt and hash the plain password value
+        """
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        """
+        Check or compare the plain password with the saved hashed value
+        """
+        return check_password(self.password_hash, password)

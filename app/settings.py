@@ -30,7 +30,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["SERVER_PORT"] = os.getenv("SERVER_PORT", "8010")
 app.config["SERVER_IP"] = os.getenv("SERVER_IP", "127.0.0.1")
 app.config["API_SECRET"] = ""
-app.config["API_KEY"] = ""
+app.config["API_KEY"] = os.getenv("API_SECRET", "")
 
 # database setup
 db = SQLAlchemy(app)

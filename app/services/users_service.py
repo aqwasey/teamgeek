@@ -1,7 +1,6 @@
 """
 import all the required libraries
 """
-import uuid
 
 from app.misc.utils import hash_pwd
 from app.misc.serializers import serialize_user
@@ -14,7 +13,7 @@ class UserService:
     Provides business logic operations for managing user data.
 
     This service class interacts with the UserRepository to perform CRUD
-    operations on book objects, promoting separation of concerns and
+    operations on user objects, promoting separation of concerns and
     improved testability.
     """
 
@@ -23,13 +22,14 @@ class UserService:
 
     def get_user(self, username: str, password: str) -> dict:
         """
-        Retrieves a single book record by its ID.
+        Retrieves a single user record by its email and password.
 
         Args:
-            book_id (str): The unique identifier of the book.
+            username (str): Existing or previously set username or email
+            password (str): Existing or previously set password
 
         Returns:
-            Optional[Book]: The Book object if found, otherwise None.
+            Optional[User]: The User object if found, otherwise None.
         """
 
         hashed_password = hash_pwd(password)  # hash the plain password
@@ -50,12 +50,12 @@ class UserService:
         result = self.repo.create_user(user)
         return serialize_user(result) or {}
 
-    def edit_user(self, update_data: dict) -> dict:
+    def edit_user(self, update_info: dict) -> dict:
         """
         Updates an existing user record with new information.
 
         Args:
-            update_data (dict): A dictionary containing new values for
+            update_info (dict): A dictionary containing new values for
             specific fields.
 
         Returns:
@@ -63,5 +63,5 @@ class UserService:
             otherwise None or empty dictionary.
         """
 
-        result = self.repo.update_user(update_data)
+        result = self.repo.update_user(update_info)
         return serialize_user(result) or {}
