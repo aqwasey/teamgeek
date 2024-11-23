@@ -17,25 +17,3 @@ def get_params_data():
     else:
         data = request.form.to_dict()
         return data if data else None
-
-
-def generate_password_hash(param: str) -> str:
-    """
-    Function to hash raw or plain password value
-
-    Attributes:
-        param: plain password value
-
-    Returns:
-        Hashed password value or None
-    """
-    result = hashlib.sha512(param.encode()).hexdigest()
-    return result or None
-
-
-def check_password(hashed_password: str, plain_password: str) -> bool:
-    """
-    Compare the hashed password and a plain password
-    """
-    current_hashed_password = generate_password_hash(plain_password)
-    return hashed_password == current_hashed_password

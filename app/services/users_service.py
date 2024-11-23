@@ -2,10 +2,13 @@
 import all the required libraries
 """
 
-from app.misc.utils import hash_pwd
+from app.misc.authenticate import PasswordManager
 from app.misc.serializers import serialize_user
 from app.models.user import User
 from app.repositories.user_repository import UserRepository
+from app.misc.params import AuthUser
+from app.misc.cache import DataCache
+from app.misc.tokens import JWTTokens
 
 
 class UserService:
@@ -19,22 +22,32 @@ class UserService:
 
     def __init__(self) -> None:
         self.repo = UserRepository()
+        self.pm = PasswordManager()
+        self.cache = DataCache()
+        self.toke = JWTTokens()
 
-    def get_user(self, username: str, password: str) -> dict:
+    def get_user(self, info: AuthUser) -> dict:
         """
-        Retrieves a single user record by its email and password.
+        Retrieves a single user record by the email and password.
 
         Args:
-            username (str): Existing or previously set username or email
-            password (str): Existing or previously set password
+            info (AuthUser): Existing or previously set authenticating info
+            (username or email)
 
         Returns:
             Optional[User]: The User object if found, otherwise None.
         """
 
-        hashed_password = hash_pwd(password)  # hash the plain password
-        book = self.repo.get_user(username=username, password=hashed_password)
-        return serialize_user(book) or {}
+        hashed_pwd = self.pm.generate_password_hash(info.password)
+        user = self.repo.get_user(username=info.email, password=hashed_pwd)
+
+        if user:
+            result = serialize_user(user)
+            # cache the final result or found data
+            self.cache.set_cache(cache_id=user.email,
+                                 cache_value=self.toke.serialize(result))
+            return result
+        return {}
 
     def create_user(self, user: User) -> dict:
         """
@@ -64,4 +77,20 @@ class UserService:
         """
 
         result = self.repo.update_user(update_info)
+        return serialize_user(result) or {}
+
+    def delete_user(self, update_info: dict) -> dict:
+        """
+        Delete an existing user record.
+
+        Args:
+            update_info (dict): A dictionary containing new values for
+            specific fields.
+
+        Returns:
+            Optional[User]: The updated User object if successful,
+            otherwise None or empty dictionary.
+        """
+
+        result = self.repo.remove_user(update_info)
         return serialize_user(result) or {}

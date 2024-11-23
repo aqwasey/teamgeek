@@ -54,13 +54,18 @@ class UserRepository:
             Optional[User or None]: The User object if found, otherwise None.
         """
 
-        data = User.query.filter_by(email=username).one()
-        instant_hash = password
+        try:
+            data = User.query.filter_by(email=username).one()
+            instant_hash = password
 
-        # compare if both values are the same
-        if instant_hash == data.password:
-            return data  # found the record
-        return None
+            # compare if both hash values are the same
+            if instant_hash == data.password:
+                return data
+            return None
+        except Exception as e:
+            logger.error(
+                msg=f"[GET USER] - Error obtaining user info due to {e}")
+            return None
 
     def update_user(self, item: dict) -> Optional[User | None]:
         """
@@ -94,5 +99,38 @@ class UserRepository:
 
         except Exception as ex:
             logger.error("[UPDATE USER] - Error updating user due to %s",
+                         str(ex), exc_info=True)
+            return None
+
+    def remove_user(self, item: dict) -> Optional[User | None]:
+        """
+        Remove or Delete an existing user record.
+
+        Args:
+            item (dict): A dictionary containing new values for
+            specific fields.
+
+        Returns:
+            Optional[User]: The updated User object if successful,
+            otherwise None.
+
+        Raises:
+            Exception: If an unexpected error occurs during database
+            interaction.
+        """
+
+        try:
+            user = User.query.filer_by(email=item.id).one()
+            if user is None:
+                return None
+
+            if user.password == item.password:
+                self.db.session.delete(user)
+                self.db.session.commit()
+                return user
+            return None
+
+        except Exception as ex:
+            logger.error("[DELETE USER] - Error deleting user due to %s",
                          str(ex), exc_info=True)
             return None

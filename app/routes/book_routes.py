@@ -3,6 +3,7 @@ from pydantic import ValidationError
 from app.services.books_service import BookService
 from app.misc.params import CreateItem, UpdateItem
 from app.misc.utils import get_params_data
+from app.misc.authenticate import LoginManager
 from app.misc.messages import (
     NO_ID_PARAM, NO_PARAMS,
     READ_EMPTY, UPDATE_FAILED,
@@ -10,11 +11,13 @@ from app.misc.messages import (
 )
 
 
+auths = LoginManager()
 book_service = BookService()
 book_routes = Blueprint("api_books", __name__, url_prefix="/api/books")
 
 
 @book_routes.route("/<string:id>", methods=["GET"])
+@auths.require_api_key
 def get_book(id: str):
     """
     Get a book record by id
@@ -34,6 +37,7 @@ def get_book(id: str):
 
 
 @book_routes.route("/", methods=["GET"])
+@auths.require_api_key
 def all_books():
     """
     Get all the book items
@@ -50,6 +54,7 @@ def all_books():
 
 
 @book_routes.route("/", methods=["POST"])
+@auths.require_api_key
 def new_book():
     """
     Create a new book record
@@ -75,6 +80,7 @@ def new_book():
 
 
 @book_routes.route("/<string:id>", methods=["PUT", "PATCH"])
+@auths.require_api_key
 def edit_book(id: str):
     """
     Modify a book record

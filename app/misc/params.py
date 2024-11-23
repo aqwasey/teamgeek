@@ -72,7 +72,21 @@ class UserBase(BaseModel):
     User information base structure
     """
     email: EmailStr
-    password: str
+    password: str = Field(min_length=6, max_length=150)
+
+
+class CreateUser(UserBase):
+    """
+    Model for creating a new user.
+
+    Attributes:
+        Inherits all attributes from UserBase.
+        created_at (Optional[datetime]): Optional timestamp of user
+        creation (defaults to now).
+    """
+
+    fullname: str = Field(min_length=10, max_length=50)
+    created_at: Optional[datetime] = datetime.now()
 
 
 class AuthUser(UserBase):
@@ -87,3 +101,4 @@ class UserInfo(UserBase):
     User information
     """
     id: Optional[str] = None
+    created_at: Optional[datetime] = None

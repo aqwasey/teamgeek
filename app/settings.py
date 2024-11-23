@@ -1,4 +1,5 @@
 import os
+import redis
 import logging
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -31,9 +32,23 @@ app.config["SERVER_PORT"] = os.getenv("SERVER_PORT", "8010")
 app.config["SERVER_IP"] = os.getenv("SERVER_IP", "127.0.0.1")
 app.config["API_SECRET"] = ""
 app.config["API_KEY"] = os.getenv("API_SECRET", "")
+app.config["ALGORITHM"] = "HS256"
+app.config["JWT_KEY"] = "&&<9[6,4}5Q@Avcn,;L@nOu[Jci6gdB:"
 
 # database setup
 db = SQLAlchemy(app)
+
+
+# Redis Service controller
+app.config["REDIS_PORT"] = 6379
+app.config["REDIS_SERVER"] = "localhost"
+app.config["REDIS_DB"] = 0
+app.config["REDIS_EXPIRY"] = 3600
+redis_handler = redis.Redis(
+    host=app.config["REDIS_SERVER"],
+    port=app.config["REDIS_PORT"],
+    db=app.config["REDIS_DB"]
+)
 
 
 @app.before_request
