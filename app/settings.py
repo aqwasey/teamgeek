@@ -49,7 +49,7 @@ app.config["REDIS_DB"] = 0
 app.config["REDIS_EXPIRY"] = 3600
 redis_handler = redis.Redis(
     host=os.getenv("REDIS_HOST", "localhost"),
-    port=os.getenv("REDIS_PORT", 6379),
+    port=int(os.getenv("REDIS_PORT", "6379")),
     db=app.config["REDIS_DB"]
 )
 
