@@ -27,7 +27,6 @@ class TestBookAPI:
         response = r.post(BASE_URL, json=param_data, timeout=100)
         data = json.loads(response.content.decode("utf-8"))
         self.temp_book_id = data['info']['id']
-        print(data['info'])
         assert response.status_code == 201
         # assert param_data in data['info']
 

@@ -28,25 +28,28 @@ logger.setLevel(logging.DEBUG)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' +\
     os.path.join(basedir, '../db/library.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config["SERVER_PORT"] = os.getenv("SERVER_PORT", "8010")
-app.config["SERVER_IP"] = os.getenv("SERVER_IP", "127.0.0.1")
-app.config["API_SECRET"] = ""
+app.config["SERVER_PORT"] = os.getenv("SERVER_PORT", "5000")
+app.config["SERVER_IP"] = os.getenv("SERVER_IP", "0.0.0.0")
+
+
+# JWT token variables
 app.config["API_KEY"] = os.getenv("API_SECRET", "")
 app.config["ALGORITHM"] = "HS256"
 app.config["JWT_KEY"] = "&&<9[6,4}5Q@Avcn,;L@nOu[Jci6gdB:"
+
 
 # database setup
 db = SQLAlchemy(app)
 
 
 # Redis Service controller
-app.config["REDIS_PORT"] = 6379
-app.config["REDIS_SERVER"] = "localhost"
+# set the default port and host values for redis server
+# set the default db of redis to zero (0)
 app.config["REDIS_DB"] = 0
 app.config["REDIS_EXPIRY"] = 3600
 redis_handler = redis.Redis(
-    host=app.config["REDIS_SERVER"],
-    port=app.config["REDIS_PORT"],
+    host=os.getenv("REDIS_HOST", "localhost"),
+    port=os.getenv("REDIS_PORT", 6379),
     db=app.config["REDIS_DB"]
 )
 

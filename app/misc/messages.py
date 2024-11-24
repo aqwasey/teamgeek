@@ -9,7 +9,7 @@ CREATED_FAILED = "Book item already exist or could not be created."
 UPDATE_OK = "Book item updated successfully"
 UPDATE_FAILED = "Failed OR could not to update the Book item."
 
-READ_EMPTY = "No Book record(s) found."
+BOOK_EMPTY = "No Book record(s) found."
 DOES_NOT_EXIST = "Book item does not exist or invalid id provided"
 
 NO_ID_PARAM = "No item or book id provided, please check and try again."
@@ -23,6 +23,7 @@ ERROR_BAD_REQUEST = ""
 # USER SERVICE MESSAGES AND FLAGS
 ##################################
 TOKEN = "token"
+ERROR = "error"
 INVALID_TOKEN = "Invalid or Forged API key provided, use a valid API Key"
 
 CREATED_USER_OK = "User account created successfully"
@@ -31,7 +32,7 @@ CREATED_USER_FAILED = "User account already exist or could not be created."
 UPDATE_USER_OK = "User account updated successfully"
 UPDATE_USER_FAILED = "Failed OR could not to update the Book item."
 
-READ_EMPTY = "No User record(s) found."
+USER_EMPTY = "No User record(s) found."
 USER_NOT_EXIST = "User account does not exist or invalid"
 
 NO_USER_PARAM = "No User info provided, please check and try again."

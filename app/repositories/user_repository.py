@@ -33,6 +33,11 @@ class UserRepository:
         """
 
         try:
+            exists = User.query.filter_by(
+                fullname=item.fullname, email=item.email).first()
+            if exists:
+                return None
+
             new_user = User(**item.dict())
             self.db.session.add(new_user)
             self.db.session.commit()

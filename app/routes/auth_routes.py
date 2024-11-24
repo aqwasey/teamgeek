@@ -26,7 +26,7 @@ def get_access():
     try:
         params = get_params_data()
         if not params:
-            return jr({"info": NO_USER_PARAM}), 400
+            return jr({RESULTS_KEY: NO_USER_PARAM}), 400
 
         info = AuthUser(email=params["userid"], password=params["pwd"])
         data = auth_service.get_user(info)
@@ -79,7 +79,8 @@ def edit_user():
             return jr({RESULTS_KEY: NO_USER_PARAM}), 400
 
         item = UserInfo(
-            password=data["pwd"], email=data["userid"], id=id,
+            password=data["pwd"],
+            email=data["userid"], id=id,
         )
 
         result = auth_service.edit_user(item)

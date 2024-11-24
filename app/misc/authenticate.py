@@ -4,7 +4,7 @@ from functools import wraps
 from flask import request, jsonify as jr
 from app.misc.cache import DataCache
 from app.misc.tokens import JWTTokens
-from app.misc.messages import INVALID_TOKEN, SERVICE_SUBSCRIBE
+from app.misc.messages import INVALID_TOKEN, SERVICE_SUBSCRIBE, ERROR
 from app.settings import logger
 
 
@@ -27,27 +27,28 @@ class LoginManager:
         @wraps(f)
         def decorated(*args, **kwargs):
             api_key = request.headers.get('X-API-Key')
-            cache_id = None
 
             if not api_key:
-                return jr({'error': SERVICE_SUBSCRIBE}), 401
+                return jr({ERROR: SERVICE_SUBSCRIBE}), 401
 
             try:
+                cache_id = None
                 raw_token = self.toke.deserialize(api_key)
-                cache_id = self.cache.get_cache(raw_token["email"])
+                cache = self.cache.get_cache(raw_token["email"])
+                cache_id = cache
+
+                if not cache_id:
+                    return jr({ERROR, INVALID_TOKEN}), 401
+
+                status = self.toke.compare(api_key, cache_id.encode("utf-8"))
+                if api_key and status:
+                    return f(*args, **kwargs)
+
+                return jr({ERROR: INVALID_TOKEN}), 401
             except Exception as e:
                 logger.error(msg=f"[DECODE TOKEN] - Error occured due to {e}")
-                return jr({"error":
+                return jr({ERROR:
                            "Invalid token was specified, try again"}), 401
-
-            if not cache_id:
-                return jr({'error', INVALID_TOKEN}), 401
-
-            status = self.toke.compare(api_key, cache_id)
-            print(status)
-            if api_key and status:
-                return f(*args, **kwargs)
-            return jr({'error': INVALID_TOKEN}), 401
         return decorated
 
 

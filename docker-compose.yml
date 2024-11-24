@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - tgnetwork
+
+  web:
+    build: .
+    image: teamgeek-books:1.0
+    depends_on:
+      - redis
+    ports:
+      - "8010:5000"
+    networks:
+      - tgnetwork
+    environment:
+      - FLASK_APP=app
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SERVER_PORT=5000
+      - SERVER_HOST=0.0.0.0
+
+networks:
+  tgnetwork:
+    driver: bridge

@@ -26,6 +26,11 @@ class DataCache:
         """
 
         try:
+            # check if cache id already exist
+            # if it does delete to avoid expiration and other conflicts
+            if self.rd.exists(cache_id):
+                self.rd.delete(cache_id)
+
             self.rd.set(
                 cache_id, cache_value, ex=int(app.config["REDIS_EXPIRY"]))
         except redis.RedisError as e:
@@ -47,6 +52,8 @@ class DataCache:
 
         try:
             result = self.rd.get(cache_id)
+            if isinstance(result, bytes):
+                return result.decode("utf-8")
             return result or None
         except redis.exceptions.RedisError as e:
             logger.error(

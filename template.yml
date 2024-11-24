@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Description: Flask App with Redis
+
+Resources:
+  FlaskApp:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./app
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      MemorySize: 128
+      Timeout: 30
+      Environment:
+        Variables:
+          REDIS_HOST: ${RedisEndpoint}
+          REDIS_PORT: 6379
+
+  Redis:
+    Type: AWS::Elasticache::Cluster
+    Properties:
+      CacheNodeType: cache.t2.micro
+      Engine: redis
+      NumCacheNodes: 1
+      ClusterName: MyRedisCluster

@@ -6,7 +6,7 @@ from app.misc.utils import get_params_data
 from app.misc.authenticate import LoginManager
 from app.misc.messages import (
     NO_ID_PARAM, NO_PARAMS,
-    READ_EMPTY, UPDATE_FAILED,
+    BOOK_EMPTY, UPDATE_FAILED,
     DOES_NOT_EXIST, CREATED_FAILED, RESULTS_KEY
 )
 
@@ -45,7 +45,7 @@ def all_books():
     try:
         result = book_service.get_all_books()
         if not result:
-            return jr({RESULTS_KEY: READ_EMPTY}), 404
+            return jr({RESULTS_KEY: BOOK_EMPTY}), 404
 
         return jr({RESULTS_KEY: result}), 200
 

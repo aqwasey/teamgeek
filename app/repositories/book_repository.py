@@ -33,14 +33,19 @@ class BookRepository:
         """
 
         try:
+            exists = Book.query.filter_by(
+                isbn=item.isbn, author=item.author, title=item.title).first()
+
+            if exists:
+                return None
+
             new_book = Book(**item.dict())
             self.db.session.add(new_book)
             self.db.session.commit()
             return new_book
         except Exception as e:
-            logger.error(
-                "[CREATE BOOK] - Error creating book due to %s",
-                str(e), exc_info=True)
+            logger.error("[CREATE BOOK] - Error creating book due to %s",
+                         str(e), exc_info=True)
             return None
 
     def get_book(self, book_id: str) -> Optional[Book | None]:
