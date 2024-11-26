@@ -8,27 +8,26 @@ Teamgeek Books API project is based on python flask web framework. Other depende
 
 ## URLS
 User Authentication
-    - [POST] /api/auth/         _Create a new user profile_
-        Required data (__fulllname__, __email__, __password__)
+    - [POST] /api/auth/         Create a new user profile
+        Required data (fulllname, email, password)
 
-    - [POST] /api/auth/in       _Sign in obtain login token **
-        Required data (__userid__,__pwd__)
+    - [POST] /api/auth/in       Sign in obtain login token
+        Required data (userid, pwd)
 
-    - [PUT] /api/auth/          _Modify User profile_ __incomplete feature__
-
-    - [DELETE] /api/auth/       _Remove or Delete user profile_ __incomplete feature__
+    - [PUT] /api/auth/          Modify User profile  **incomplete feature**
+    - [DELETE] /api/auth/       Remove or Delete user profile **incomplete feature**
 
 Book Resources Endpoints
-    - [GET] /api/books/:id _Retrieve book item or resource using id_
-        Required data (__id__)
+    - [GET] /api/books/:id      Retrieve book item or resource using id
+        Required data (id)
 
-    - [GET] /api/books/ _Retrieve all book items or resources_
+    - [GET] /api/books/         Retrieve all book items or resources
 
-    - [POST] /api/books/ _Create or add book item or resource_
-        Required data (__isbn__,__title__,__author__,__publish_date__)
+    - [POST] /api/books/        Create or add book item or resource
+        Required data (isbn, title, author, publish_date)
 
-    - [PUT] or [PATCH] /api/books/:id _Modify a book item or resource_
-        Required data (__id__,__isbn__,__title__,__author__,__publish_date__)
+    - [PUT] or [PATCH] /api/books/:id   Modify a book item or resource
+        Required data (id, isbn, title, author, publish_date)
 
 
 ## Additional Libraries
@@ -70,6 +69,6 @@ There are a few ways to deploy this project using either or;
 
 
 ## Developed By
-Engineer : __Isaac K. Amoah__
+Engineer : __Isaac K. Amoah__ 
 Company : __Team Geek Pty__
 Location : __Cape Town, South Africa__
