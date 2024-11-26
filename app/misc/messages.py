@@ -38,3 +38,5 @@ USER_NOT_EXIST = "User account does not exist or invalid"
 NO_USER_PARAM = "No User info provided, please check and try again."
 
 SERVICE_SUBSCRIBE = "User API Key is missing or not subscribed to service. Subscribe to service by visiting teamgeek.co.za/business/account."
+
+SERVICE_INFO = "Teamgeek Books API Service  - Subscribe to service by visiting teamgeek.co.za/business/account."
