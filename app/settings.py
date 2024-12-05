@@ -63,6 +63,5 @@ def initialize_db():
     try:
         db.create_all()
     except Exception as e:
-        logger.exception(
-            "[INIT DB] Error initializing database due to %s", str(e),
-            exc_info=True)
+        logger.exception("[INIT DB] Error initializing database due to %s",
+                         str(e), exc_info=True)

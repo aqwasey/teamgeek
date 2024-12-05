@@ -1,4 +1,3 @@
-import uuid
 from datetime import datetime
 from typing import Optional
 from app.models.user import User
@@ -68,8 +67,7 @@ class UserRepository:
                 return data
             return None
         except Exception as e:
-            logger.error(
-                msg=f"[GET USER] - Error obtaining user info due to {e}")
+            logger.error(msg=f"[GET USER] - Error obtaining user info due to {e}")
             return None
 
     def update_user(self, item: dict) -> Optional[User | None]:

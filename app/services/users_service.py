@@ -2,8 +2,8 @@
 import all the required libraries
 """
 
-from app.auth.authenticate import PasswordManager
-from app.serializers.serializers import serialize_user
+from app.auth.login_manager import PasswordManager
+from app.serializers.user_serializer import serialize_user
 from app.models.user import User
 from app.repositories.user_repository import UserRepository
 from app.misc.params import AuthUser
@@ -22,9 +22,9 @@ class UserService:
 
     def __init__(self) -> None:
         self.repo = UserRepository()
-        self.pm = PasswordManager()
+        self.password_manager = PasswordManager()
         self.cache = DataCache()
-        self.toke = JWTTokens()
+        self.token = JWTTokens()
 
     def get_user(self, info: AuthUser) -> dict:
         """
@@ -38,14 +38,15 @@ class UserService:
             Optional[User]: The User object if found, otherwise None.
         """
 
-        hashed_pwd = self.pm.generate_password_hash(info.password)
+        hashed_pwd = self.password_manager.generate_password_hash(
+            info.password)
         user = self.repo.get_user(username=info.email, password=hashed_pwd)
 
         if user:
             result = serialize_user(user)
             # cache the final result or found data
-            self.cache.set_cache(cache_id=user.email,
-                                 cache_value=self.toke.serialize(result))
+            self.cache.set_cache(
+                cache_id=user.email, cache_value=self.token.serialize(result))
             return result
         return {}
 
