@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify as jr
+from flask import Blueprint, jsonify
 from pydantic import ValidationError
 from app.services.books_service import BookService
 from app.misc.params import CreateItem, UpdateItem
@@ -24,16 +24,16 @@ def get_book(id: str):
     """
     try:
         if not id:
-            return jr({"info": NO_ID_PARAM}), 400
+            return jsonify({"info": NO_ID_PARAM}), 400
 
         result = book_service.get_book(book_id=id)
         if not result:
-            return jr({RESULTS_KEY: DOES_NOT_EXIST}), 404
+            return jsonify({RESULTS_KEY: DOES_NOT_EXIST}), 404
 
-        return jr({RESULTS_KEY: result}), 200
+        return jsonify({RESULTS_KEY: result}), 200
 
     except ValidationError as er:
-        return jr({RESULTS_KEY: er.errors(include_url=False)}), 400
+        return jsonify({RESULTS_KEY: er.errors(include_url=False)}), 400
 
 
 @book_routes.route("/", methods=["GET"])
@@ -45,12 +45,12 @@ def all_books():
     try:
         result = book_service.get_all_books()
         if not result:
-            return jr({RESULTS_KEY: BOOK_EMPTY}), 404
+            return jsonify({RESULTS_KEY: BOOK_EMPTY}), 404
 
-        return jr({RESULTS_KEY: result}), 200
+        return jsonify({RESULTS_KEY: result}), 200
 
     except ValidationError as er:
-        return jr({RESULTS_KEY: er.errors(include_url=False)}), 400
+        return jsonify({RESULTS_KEY: er.errors(include_url=False)}), 400
 
 
 @book_routes.route("/", methods=["POST"])
@@ -62,7 +62,7 @@ def new_book():
     try:
         data, item = get_params_data(), {}
         if not data:
-            return jr({RESULTS_KEY: NO_PARAMS}), 400
+            return jsonify({RESULTS_KEY: NO_PARAMS}), 400
 
         if data is not None:
             item = CreateItem(
@@ -71,12 +71,12 @@ def new_book():
 
             result = book_service.create_book(item)
             if not result:
-                return jr({RESULTS_KEY: CREATED_FAILED}), 400
+                return jsonify({RESULTS_KEY: CREATED_FAILED}), 400
 
-            return jr({RESULTS_KEY: result}), 201
+            return jsonify({RESULTS_KEY: result}), 201
 
     except ValidationError as er:
-        return jr({RESULTS_KEY: er.errors(include_url=False)}), 400
+        return jsonify({RESULTS_KEY: er.errors(include_url=False)}), 400
 
 
 @book_routes.route("/<string:id>", methods=["PUT", "PATCH"])
@@ -87,11 +87,11 @@ def edit_book(id: str):
     """
     try:
         if not id:
-            return jr({RESULTS_KEY: NO_ID_PARAM}), 400
+            return jsonify({RESULTS_KEY: NO_ID_PARAM}), 400
 
         data, item = get_params_data(), {}
         if data is None or data == {}:
-            return jr({RESULTS_KEY: NO_PARAMS}), 400
+            return jsonify({RESULTS_KEY: NO_PARAMS}), 400
 
         item = UpdateItem(
             isbn=data["isbn"], title=data["title"], id=id,
@@ -101,9 +101,9 @@ def edit_book(id: str):
 
         result = book_service.edit_book(item)
         if result == {}:
-            return jr({RESULTS_KEY: UPDATE_FAILED}), 400
+            return jsonify({RESULTS_KEY: UPDATE_FAILED}), 400
 
-        return jr({RESULTS_KEY: result}), 200
+        return jsonify({RESULTS_KEY: result}), 200
 
     except ValidationError as er:
-        return jr({RESULTS_KEY: er.errors(include_url=False)}), 400
+        return jsonify({RESULTS_KEY: er.errors(include_url=False)}), 400

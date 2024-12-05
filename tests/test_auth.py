@@ -79,7 +79,7 @@
 #         response with a token. (Assuming a user already exists)
 #         """
 #         # Assuming a user is already created with email "[email address removed]" and password "test_password123"
-#         data = {"userid": "[email address removed]", "pwd": "test_password123"}
+#         data = {"userid": "email", "pwd": "test_password123"}
 #         response = client.post("/api/auth/in", json=data)
 #         assert response.status_code == 200
 #         assert TOKEN in response.json  # Assuming the response key for the token is 'TOKEN'

@@ -30,7 +30,10 @@ CREATED_USER_OK = "User account created successfully"
 CREATED_USER_FAILED = "User account already exist or could not be created."
 
 UPDATE_USER_OK = "User account updated successfully"
-UPDATE_USER_FAILED = "Failed OR could not to update the Book item."
+UPDATE_USER_FAILED = "Failed OR could not to update the User item."
+
+DELETE_USER_OK = "User account deleted successfully"
+DELETE_USER_FAILED = "Failed OR could not to delete the User item."
 
 USER_EMPTY = "No User record(s) found."
 USER_NOT_EXIST = "User account does not exist or invalid"

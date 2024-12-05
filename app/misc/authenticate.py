@@ -13,11 +13,11 @@ class LoginManager:
     ....
     """
     cache = None
-    toke = None
+    token = None
 
     def __init__(self) -> None:
         self.cache = DataCache()
-        self.toke = JWTTokens()
+        self.token = JWTTokens()
 
     # @staticmethod
     def require_api_key(self, f):
@@ -33,14 +33,14 @@ class LoginManager:
 
             try:
                 cache_id = None
-                raw_token = self.toke.deserialize(api_key)
+                raw_token = self.token.deserialize(api_key)
                 cache = self.cache.get_cache(raw_token["email"])
                 cache_id = cache
 
                 if not cache_id:
                     return jr({ERROR, INVALID_TOKEN}), 401
 
-                status = self.toke.compare(api_key, cache_id.encode("utf-8"))
+                status = self.token.compare(api_key, cache_id.encode("utf-8"))
                 if api_key and status:
                     return f(*args, **kwargs)
 

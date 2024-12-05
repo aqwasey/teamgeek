@@ -2,7 +2,7 @@ from flask import jsonify as jr
 from app.settings import app
 from app.misc.messages import SERVICE_INFO
 from app.routes.book_routes import book_routes
-from app.routes.auth_routes import auth_routes
+from app.routes.user_routes import auth_routes
 
 
 @app.route("/", methods=["GET"])

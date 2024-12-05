@@ -7,11 +7,11 @@ class DataCache:
     A class for managing Redis cache operations.
 
     Attributes:
-        rd (redis.Redis): A Redis client instance.
+        handler (redis.Redis): A Redis client instance.
     """
 
     def __init__(self,) -> None:
-        self.rd = redis_handler
+        self.handler = redis_handler
 
     def set_cache(self, cache_id: str, cache_value: str) -> None:
         """
@@ -28,11 +28,11 @@ class DataCache:
         try:
             # check if cache id already exist
             # if it does delete to avoid expiration and other conflicts
-            if self.rd.exists(cache_id):
-                self.rd.delete(cache_id)
+            if self.handler.exists(cache_id):
+                self.handler.delete(cache_id)
 
-            self.rd.set(
-                cache_id, cache_value, ex=int(app.config["REDIS_EXPIRY"]))
+            self.rd.set(cache_id, cache_value,
+                        ex=int(app.config["REDIS_EXPIRY"]))
         except redis.RedisError as e:
             logger.error(
                 msg=f"[SET CACHE] Error occured setting cache data due to {e}")
@@ -51,7 +51,7 @@ class DataCache:
         """
 
         try:
-            result = self.rd.get(cache_id)
+            result = self.handler.get(cache_id)
             if isinstance(result, bytes):
                 return result.decode("utf-8")
             return result or None
