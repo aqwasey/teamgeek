@@ -3,7 +3,7 @@ import hashlib
 from functools import wraps
 from flask import request, jsonify as jr
 from app.misc.cache import DataCache
-from app.misc.tokens import JWTTokens
+from app.auth.tokens import JWTTokens
 from app.misc.messages import INVALID_TOKEN, SERVICE_SUBSCRIBE, ERROR
 from app.settings import logger
 

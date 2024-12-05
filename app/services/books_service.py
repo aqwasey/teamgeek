@@ -4,7 +4,7 @@ import all the required libraries
 import uuid
 from typing import List
 
-from app.misc.serializers import serialize_book
+from app.serializers.serializers import serialize_book
 from app.models.book import Book
 from app.repositories.book_repository import BookRepository
 

@@ -2,9 +2,9 @@ from flask import Blueprint, jsonify
 from pydantic import ValidationError
 from app.services.users_service import UserService
 from app.misc.params import CreateUser, AuthUser, UserInfo
-from app.misc.tokens import JWTTokens
+from app.auth.tokens import JWTTokens
 from app.misc.utils import get_params_data
-from app.misc.authenticate import LoginManager, PasswordManager
+from app.auth.authenticate import LoginManager, PasswordManager
 from app.misc.messages import (
     CREATED_USER_FAILED, CREATED_USER_OK,
     NO_USER_PARAM, NO_PARAMS, TOKEN, UPDATE_USER_FAILED,

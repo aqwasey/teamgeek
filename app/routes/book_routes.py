@@ -3,7 +3,7 @@ from pydantic import ValidationError
 from app.services.books_service import BookService
 from app.misc.params import CreateItem, UpdateItem
 from app.misc.utils import get_params_data
-from app.misc.authenticate import LoginManager
+from app.auth.authenticate import LoginManager
 from app.misc.messages import (
     NO_ID_PARAM, NO_PARAMS,
     BOOK_EMPTY, UPDATE_FAILED,

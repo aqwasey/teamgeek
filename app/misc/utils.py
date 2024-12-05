@@ -1,5 +1,5 @@
 from flask import request
-import hashlib
+
 
 def get_params_data():
     """
